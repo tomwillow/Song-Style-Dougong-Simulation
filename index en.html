@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body {
+	background-color:#282828;
+	color:#FFF;
+}
+
+.all
+{
+	width:96%;
+	margin-top:1%;
+	margin-left:2%;
+	margin-right:2%;
+	margin-bottom:1%;
+}
+
+.top
+{
+	clear:both;
+	/*margin-top:2%;*/
+	margin-bottom:1%;
+}
+
+.left
+{
+	float:left;
+}
+
+.right
+{
+	position:fixed;
+	width:180px;
+	right:2%;
+	padding:10px;
+	/*background-color:#F00;*/
+}
+</style>
+<script language="Javascript">
+var autorotate;
+autorotate=false;
+
+function SetView(view){
+	M_e=asm.Engine;
+	M_e.Nodes("all").Fields("rotation").x=0;
+	M_e.Nodes("all").Fields("rotation").y=0;
+	M_e.Nodes("all").Fields("rotation").z=0;
+	M_e.Nodes(view).Fields("set_bind")=true;
+}
+
+function SetAutoRotate(){
+	M_e=asm.Engine;
+	autorotate=document.getElementById("checkbox_setautorotate").checked;
+	autorotate=!autorotate;
+	if (autorotate==false)
+		autorotate=true;
+		else
+		autorotate=false;
+		M_e.Nodes("TimeSensor_Rotate").Fields("enabled")=autorotate;
+}
+
+function SetMode(mode){
+	M_e=asm.Engine;
+	switch (mode)
+	{
+		case 0:
+		M_e.Nodes("queue_script").Fields("alldisenabled")=true;
+		break;
+		case 1:
+		M_e.Nodes("queue_script").Fields("allenabled")=true;
+		break;
+	}
+}
+
+function Reset(){
+	M_e=asm.Engine;
+	var myDate = new Date();
+	myDate.getTime();  
+	M_e.Nodes("script_allasm").Fields("resetasm")=myDate.getTime()/1000;
+	window.location.reload();
+}
+function Asm(){
+	M_e=asm.Engine;
+	SetView("distant_Viewpoint");
+	var myDate = new Date();
+	myDate.getTime();  
+	M_e.Nodes("script_allasm").Fields("startasmTime")=myDate.getTime()/1000;
+	M_e.Nodes("trigger").Fields("touchTime")=myDate.getTime()/1000;
+}
+
+function DisAsm(){
+	M_e=asm.Engine;
+	SetView("distant_Viewpoint");
+	//M_e.Nodes("test").Fields("touchTime")=0;
+	//M_e.Nodes("script_allasm").Fields("start")=true;
+	var myDate = new Date();
+	myDate.getTime();  
+	M_e.Nodes("script_allasm").Fields("startdisasmTime")=myDate.getTime()/1000;
+	M_e.Nodes("trigger").Fields("touchTime")=myDate.getTime()/1000;
+}
+
+</script>
+</head>
+<body>
+<div class="all">
+<div class="top">Song-Style Dougong Presentation (four-puzuo-chaang-bujian-puzuo)</div>
+<div class="left" id="left">
+<OBJECT id="asm"
+CLASSID="CLSID:86A88967-7A20-11d2-8EDA-00600818EDB1"
+WIDTH="800" HEIGHT="500">
+  <PARAM NAME="Scene" value="asm.wrl">
+</OBJECT>
+</div>
+<div class="right">
+
+  <p>Switch viewpoints:</p>
+  <table border="0" align="center">
+
+    <tr>
+      <td></td>
+      <td align="center"><input type="button" value="top" onclick="SetView('top_Viewpoint')" /></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><input type="button" value="left" onclick="SetView('left_Viewpoint')" /></td>
+      <td align="center"><input type="button" value="front" onclick="SetView('front_Viewpoint')" />
+        <input type="button" value="back" onclick="SetView('back_Viewpoint')" />
+        </td>
+      <td><input type="button" value="right" onclick="SetView('right_Viewpoint')" /></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td align="center"><input type="button" value="bottom" onclick="SetView('bottom_Viewpoint')" /></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+  <td colspan="3" align="center"><input type="button" value="default" onclick="SetView('default_Viewpoint')" />
+  <input type="button" value="Long distance" onclick="SetView('distant_Viewpoint')" />
+  </td>
+  </tr>
+  </table>
+  <p>
+  <input type="checkbox" id="checkbox_setautorotate" value="autor" name="autor" onclick="SetAutoRotate()" />Auto Rotate
+  </p>
+  <p>
+    <input type="button" value="Disassembe" onclick="DisAsm()" />
+    <input type="button" value="Assemble" onclick="Asm()" />
+  </p>
+    <input type="radio" name="radio_mode" onclick="SetMode(0)" checked="checked"/><a title="切换到观察模式时拖动功能锁定，鼠标悬浮至零件上方时不出现拖动提示。">Explore Mode</a> <br />
+    <input type="radio" name="radio_mode" onclick="SetMode(1)"/><a title="手动拆卸模式允许您拖放零件模拟拆装。鼠标悬浮在零件上方时光标改变，按住即可拖动。如未出现光标改变代表拖动顺序不正确，请按照拆卸顺序拖动。">Manual Asm/Disasm</a>
+  <p style="text-align:center">
+  <input type="button" value="Reset" onclick="Reset()" />
+  </p>
+</div>
+</div>
+<script language="javascript" defer="defer">
+window.onload=function(){  
+   changeasmsize(); 
+}  
+
+window.onresize=function(){  
+   changeasmsize(); 
+}  
+function changeasmsize(){
+	asm.width=document.documentElement.clientWidth*0.96-200-14;
+asm.height=document.documentElement.clientHeight*(0.98-0.01*2-0.01)-40;
+}
+
+</script>
+</body>
+</html>

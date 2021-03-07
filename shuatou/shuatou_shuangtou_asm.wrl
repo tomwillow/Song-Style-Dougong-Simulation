@@ -1,0 +1,54 @@
+#VRML V2.0 utf8
+
+DEF name Transform {
+	translation	-0.48 0.1 0.051
+	children [
+Shape {
+	geometry Text {
+		string ["耍头"]
+		fontStyle FontStyle	{
+			size 0.05
+		}
+	}
+}
+]
+}
+
+Transform {
+	rotation 0 1 0 3.14
+	children [
+		USE	name
+	]
+}
+
+Transform {
+translation -0.3 0 0
+children [
+Inline {
+url "shuatou_shuangtou_af_prt.wrl"}
+
+]
+}
+
+
+
+Transform {
+translation 0.3 0 0
+rotation 0 1 0 3.14
+children [
+Inline {
+url "shuatou_shuangtou_af_prt.wrl"}
+
+]
+}
+
+
+Transform {
+	rotation 0 0 1 -1.57
+children [
+Inline {
+url "shuatou_shuangtou_zhongjian_af_prt.wrl"}
+
+]
+}
+

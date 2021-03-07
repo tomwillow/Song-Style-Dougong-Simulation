@@ -1,0 +1,1829 @@
+#VRML V2.0 utf8
+
+# 1fen=0.01
+
+#NavigationInfo {               #以下控制虚拟实境的动作
+#        type "WALK"        #动作的参数
+#        headlight TRUE        #光源控制
+#        speed 1.0             #动作的速度
+#}
+
+NavigationInfo {               #以下控制虚拟实境的动作
+        type "EXAMINE"        #动作的参数
+        headlight TRUE        #光源控制
+        speed 1.0             #动作的速度
+}
+
+DEF	default_Viewpoint Viewpoint	{
+	jump FALSE
+	position 0.6 0.35 1.5
+	orientation	0.4 1 0 0.4
+	description	"default"
+}
+
+DEF distant_Viewpoint Viewpoint {
+	jump FALSE
+	position 1.5 1.6 4
+	orientation	0 1 0 0.4
+	description	"distant"
+}
+
+DEF front_Viewpoint Viewpoint {
+	jump FALSE
+	position 0 0.6 1.8
+	description	"front"
+}
+
+DEF back_Viewpoint Viewpoint {
+	jump FALSE
+	position 0 0.6 -1.8
+	orientation	0 1 0 3.14
+	description	"back"
+}
+
+DEF top_Viewpoint Viewpoint {
+	jump FALSE
+	position 0 2.4 0
+	orientation	1 0 0 -1.57
+	description	"top"
+}
+
+DEF bottom_Viewpoint Viewpoint {
+	jump FALSE
+	position 0 -1 0
+	orientation	1 0 0 1.57
+	description	"bottom"
+}
+
+DEF left_Viewpoint Viewpoint {
+	jump FALSE
+	position -1.8 0.6 0
+	orientation	0 1 0 -1.57
+	description	"left"
+}
+
+DEF right_Viewpoint Viewpoint {
+	jump FALSE
+	position 1.8 0.6 0
+	orientation	0 1 0 1.57
+	description	"right"
+}
+
+
+Sound {
+	location 0 0 0
+	source 
+	DEF drag_audio AudioClip {
+		url "sound\drag.WAV" loop FALSE
+	}
+}
+
+DEF	queue_script Script{
+	eventIn SFVec3f niujifang
+	field SFVec3f vniujifang 0 0 0
+	eventOut SFBool	niujifangenabled
+	eventOut SFVec2f niujifangmin
+
+	eventIn SFVec3f fang
+	field SFVec3f vfang 0 0 0
+	eventOut SFBool	fangenabled
+	eventOut SFVec2f fangmin
+	eventOut SFVec2f fangmax
+
+	eventIn	SFVec3f	zhechuanban
+	field SFVec3f vzhechuanban 0 0 0
+	eventOut SFVec3f ozhechuanban
+	eventOut SFBool	zhechuanbanenabled
+	eventOut SFVec2f zhechuanbanmin
+
+	eventIn	SFVec3f	pingqifang
+	field SFVec3f vpingqifang 0 0 0
+	eventOut SFBool	pingqifangenabled
+	eventOut SFVec2f pingqifangmax
+	eventOut SFVec2f pingqifangmin
+
+	eventIn	SFVec3f	liaoyanfang
+	field SFVec3f vliaoyanfang 0 0 0
+	eventOut SFBool	liaoyanfangenabled
+	eventOut SFVec2f liaoyanfangmin
+	eventOut SFVec2f liaoyanfangmax
+
+	eventIn	SFVec3f	chenfangtou
+	field SFVec3f vchenfangtou 0 0 0
+	eventOut SFBool	chenfangtouenabled
+	eventOut SFVec2f chenfangtoumin
+	eventOut SFVec2f chenfangtoumax
+
+	eventIn	SFVec3f	zhutoufang
+	field SFVec3f vzhutoufang 0 0 0
+	eventOut SFBool	zhutoufangenabled
+	eventOut SFVec2f zhutoufangmin
+	eventOut SFVec2f zhutoufangmax
+
+	eventIn	SFVec3f	qixindou_3
+	field SFVec3f vqixindou_3 0 0 0
+	eventOut SFBool	qixindou_3enabled
+	eventOut SFVec2f qixindou_3min
+	eventOut SFVec2f qixindou_3max
+
+	eventIn	SFVec3f	shuatou
+	field SFVec3f vshuatou 0 0 0
+	eventOut SFBool	shuatouenabled
+	eventOut SFVec2f shuatoumin
+	eventOut SFVec2f shuatoumax
+
+	eventIn	SFVec3f	linggong_sandou
+	field SFVec3f vlinggong_sandou 0 0 0
+	eventOut SFBool	linggong_sandouenabled
+	eventOut SFVec2f linggong_sandoumin
+	eventOut SFVec2f linggong_sandoumax
+
+	eventIn	SFVec3f	linggong
+	field SFVec3f vlinggong 0 0 0
+	eventOut SFBool	linggongenabled
+	eventOut SFVec2f linggongmin
+	eventOut SFVec2f linggongmax
+
+	eventIn	SFVec3f	mangong
+	field SFVec3f vmangong 0 0 0
+	eventOut SFBool	mangongenabled
+	eventOut SFVec2f mangongmin
+	eventOut SFVec2f mangongmax
+
+	eventIn	SFVec3f	mangong_sandou
+	field SFVec3f vmangong_sandou 0 0 0
+	eventOut SFBool	mangong_sandouenabled
+	eventOut SFVec2f mangong_sandoumin
+	eventOut SFVec2f mangong_sandoumax
+
+	eventIn	SFVec3f	anqi_mangong
+	field SFVec3f vanqi_mangong 0 0 0
+	eventOut SFBool	anqi_mangongenabled
+	eventOut SFVec2f anqi_mangongmin
+	eventOut SFVec2f anqi_mangongmax
+
+	eventIn	SFVec3f	nidaogong
+	field SFVec3f vnidaogong 0 0 0
+	eventOut SFBool	nidaogongenabled
+	eventOut SFVec2f nidaogongmin
+	eventOut SFVec2f nidaogongmax
+
+	eventIn	SFVec3f	nidaogong_sandou
+	field SFVec3f vnidaogong_sandou 0 0 0
+	eventOut SFBool	nidaogong_sandouenabled
+	eventOut SFVec2f nidaogong_sandoumin
+	eventOut SFVec2f nidaogong_sandoumax
+
+	eventIn	SFVec3f	anqi_nidaogong
+	field SFVec3f vanqi_nidaogong 0 0 0
+	eventOut SFBool	anqi_nidaogongenabled
+	eventOut SFVec2f anqi_nidaogongmin
+	eventOut SFVec2f anqi_nidaogongmax
+
+	eventIn	SFVec3f	ang_4puzuo
+	field SFVec3f vang_4puzuo 0 0 0
+	eventOut SFBool	ang_4puzuoenabled
+	eventOut SFVec2f ang_4puzuomin
+	eventOut SFVec2f ang_4puzuomax
+
+	eventIn	SFVec3f	jiaohudou
+	field SFVec3f vjiaohudou 0 0 0
+	eventOut SFBool	jiaohudouenabled
+	eventOut SFVec2f jiaohudoumin
+	eventOut SFVec2f jiaohudoumax
+
+	eventIn	SFVec3f	qiangdou
+	field SFVec3f vqiangdou 0 0 0
+	eventOut SFBool	qiangdouenabled
+	eventOut SFVec2f qiangdoumin
+	eventOut SFVec2f qiangdoumax
+
+	eventIn	SFVec3f	huagong_huatouzi_l62
+	field SFVec3f vhuagong_huatouzi_l62 0 0 0
+	eventOut SFBool	huagong_huatouzi_l62enabled
+	eventOut SFVec2f huagong_huatouzi_l62min
+	eventOut SFVec2f huagong_huatouzi_l62max
+
+	eventIn	SFVec3f	ludou
+	field SFVec3f vludou 0 0 0
+	eventOut SFBool	ludouenabled
+	eventOut SFVec2f ludoumin
+	eventOut SFVec2f ludoumax
+
+	eventIn	SFVec3f	angshuan
+	field SFVec3f vangshuan 0 0 0
+	eventOut SFBool	angshuanenabled
+	eventOut SFVec2f angshuanmin
+	eventOut SFVec2f angshuanmax
+
+	eventIn SFBool alldisenabled
+	eventIn	SFBool allenabled
+	url	"javascript:
+
+	function setniujifang(){
+		niujifangmin[1]=vfang[1];
+		niujifangenabled=true;
+	}
+
+	function setfang(){
+		fangmin[1]=vchenfangtou[1];
+		fangmax[1]=vniujifang[1];
+		if (fangmax[1]-fangmin[1]>0)
+			fangenabled=true;
+		else
+			fangenabled=false;
+	}
+
+	function setzhechuanban(value){
+		//if (
+		if (fang[1]>=0.02)
+		{
+			zhechuanbanmin[0]=-10;
+			zhechuanbanenabled=true;
+		}
+		else
+		{
+			zhechuanbanmin[0]=0;
+			zhechuanbanenabled=false;
+		}
+	}
+
+	function setchenfangtou(){
+		if (vzhechuanban[0]<=-0.62)
+		{
+			chenfangtoumax[1]=Math.min(vfang[1],vliaoyanfang[1]);
+			chenfangtouenabled=true;
+		}
+		else
+		{
+			chenfangtoumax[1]=0;
+			chenfangtouenabled=false;
+		}
+		chenfangtoumin[1]=Math.max(vzhutoufang[1],vqixindou_3[1]);
+	}
+
+	function setliaoyanfang(){
+		if (vzhechuanban[0]<=-0.02)
+		{
+			liaoyanfangmax[1]=10;
+			liaoyanfangenabled=true;
+		}
+		else
+		{
+			liaoyanfangmax[1]=0;
+			liaoyanfangenabled=false;
+		}
+		liaoyanfangmin[1]=Math.max(vchenfangtou[1],vlinggong_sandou[1]);
+	}
+
+	function setpingqifang(value){
+		if (vzhechuanban[0]<=-0.32)
+		{
+			pingqifangmax[1]=10;
+			pingqifangenabled=true;
+		}
+		else
+		{
+			pingqifangmax[1]=0;
+			pingqifangenabled=false;
+		}
+		pingqifangmin[1]=Math.max(vqixindou_3[1],vlinggong_sandou[1]);
+	}
+
+	function setzhutoufang(value){
+		zhutoufangmax[1]=vchenfangtou[1];
+		if (zhutoufangmax[1]-zhutoufangmin[1]>0)
+			zhutoufangenabled=true;
+		else
+			zhutoufangenabled=false;
+		zhutoufangmin[1]=Math.max(vshuatou[1],vanqi_mangong[1]);
+	}
+
+	function setqixindou_3(value){
+		qixindou_3max[1]=Math.min(vpingqifang[1],vchenfangtou[1]);
+		qixindou_3min[1]=vshuatou[1];
+		if (qixindou_3max[1]-qixindou_3min[1]>0)
+			qixindou_3enabled=true;
+		else
+			qixindou_3enabled=false;
+	}
+
+	function setshuatou(value){
+		shuatoumax[1]=Math.min(vqixindou_3[1],vzhutoufang[1]);
+		shuatoumin[1]=Math.max(vmangong[1],vlinggong[1]);
+		if (shuatoumax[1]-shuatoumin[1]>0)
+			shuatouenabled=true;
+		else
+			shuatouenabled=false;
+	}
+
+	function setlinggong_sandou(value){
+		linggong_sandoumax[1]=Math.min(vpingqifang[1],vliaoyanfang[1]);
+		linggong_sandoumin[1]=vlinggong[1];
+		if (linggong_sandoumax[1]-linggong_sandoumin[1]>0)
+			linggong_sandouenabled=true;
+		else
+			linggong_sandouenabled=false;
+	}
+
+	function setlinggong(value){
+		linggongmax[1]=Math.min(vlinggong_sandou[1],vshuatou[1]);
+		linggongmin[1]=Math.max(vjiaohudou[1],vqiangdou[1]);
+		if (linggongmax[1]-linggongmin[1]>0)
+			linggongenabled=true;
+		else
+			linggongenabled=false;
+	}
+
+	function setmangong_sandou(value){
+		mangong_sandoumax[1]=vzhutoufang[1];
+		mangong_sandoumin[1]=vmangong[1];
+		if (mangong_sandoumax[1]-mangong_sandoumin[1]>0)
+			mangong_sandouenabled=true;
+		else
+			mangong_sandouenabled=false;
+	}
+
+	function setmangong(value){
+		mangongmax[1]=Math.min(Math.min(vanqi_mangong[1],vmangong_sandou[1]),vshuatou[1]);
+		mangongmin[1]=Math.max(vnidaogong_sandou[1],vanqi_nidaogong[1]);
+		if (mangongmax[1]-mangongmin[1]>0)
+			mangongenabled=true;
+		else
+			mangongenabled=false;
+	}
+
+	function setanqi_mangong(value){
+		anqi_mangongmax[1]=vzhutoufang[1];
+		anqi_mangongmin[1]=vmangong[1];
+		if (anqi_mangongmax[1]-anqi_mangongmin[1]>0)
+			anqi_mangongenabled=true;
+		else
+			anqi_mangongenabled=false;
+	}
+
+	function setang_4puzuo(value){
+		ang_4puzuomax[1]=vqiangdou[1];
+		ang_4puzuomin[1]=vhuagong_huatouzi_l62[1];
+		if (ang_4puzuomax[1]-ang_4puzuomin[1]>0)
+			ang_4puzuoenabled=true;
+		else
+			ang_4puzuoenabled=false;
+	}
+
+	function setnidaogong(value){
+		nidaogongmax[1]=Math.min(Math.min(vanqi_nidaogong[1],vhuagong_huatouzi_l62[1]),vnidaogong_sandou[1]);
+		nidaogongmin[1]=vludou[1];
+		if (nidaogongmax[1]-nidaogongmin[1]>0)
+			nidaogongenabled=true;
+		else
+			nidaogongenabled=false;
+
+	}
+
+	function setnidaogong_sandou(value){
+		nidaogong_sandoumax[1]=vmangong[1];
+		nidaogong_sandoumin[1]=vnidaogong[1];
+		if (nidaogong_sandoumax[1]-nidaogong_sandoumin[1]>0)
+			nidaogong_sandouenabled=true;
+		else
+			nidaogong_sandouenabled=false;
+	}
+
+	function setanqi_nidaogong(value){
+		anqi_nidaogongmax[1]=vmangong[1];
+		anqi_nidaogongmin[1]=vnidaogong[1];
+		if (anqi_nidaogongmax[1]-anqi_nidaogongmin[1]>0)
+			anqi_nidaogongenabled=true;
+		else
+			anqi_nidaogongenabled=false;
+	}
+
+	function setjiaohudou(value){
+		jiaohudoumax[1]=vlinggong[1];
+		jiaohudoumin[1]=vhuagong_huatouzi_l62[1];
+		if (jiaohudoumax[1]-jiaohudoumin[1]>0)
+			jiaohudouenabled=true;
+		else
+			jiaohudouenabled=false;
+	}
+
+	function setqiangdou(value){
+		qiangdoumax[1]=vlinggong[1];
+		qiangdoumin[1]=vang_4puzuo[1];
+		if (qiangdoumax[1]-qiangdoumin[1]>0)
+			qiangdouenabled=true;
+		else
+			qiangdouenabled=false;
+	}
+
+	function sethuagong_huatouzi_l62(value){
+		huagong_huatouzi_l62max[1]=Math.min(Math.min(vjiaohudou[1],vang_4puzuo[1]),vangshuan[1]);
+		huagong_huatouzi_l62min[1]=Math.max(vnidaogong[1],vludou[1]);
+		if (huagong_huatouzi_l62max[1]-huagong_huatouzi_l62min[1]>0)
+			huagong_huatouzi_l62enabled=true;
+		else
+			huagong_huatouzi_l62enabled=false;
+	}
+
+	function setludou(value){
+		ludoumax[1]=Math.min(vhuagong_huatouzi_l62[1],vnidaogong[1]);
+		ludoumin[1]=-10;
+		if (ludoumax[1]-ludoumin[1]>0)
+			ludouenabled=true;
+		else
+			ludouenabled=false;
+	}
+
+	function setangshuan(value){
+		angshuanmin[1]=vhuagong_huatouzi_l62[1];
+	}
+
+	function alldisenabled(alldisenabled){
+		if (alldisenabled==true)
+		{
+			angshuanenabled=false;
+
+			niujifangenabled=false;
+			fangenabled=false;
+			zhechuanbanenabled=false;
+
+			pingqifangenabled=false;
+			zhutoufangenabled=false;
+			liaoyanfangenabled=false;
+			chenfangtouenabled=false;
+
+			linggong_sandouenabled=false;
+			qixindou_3enabled=false;
+			shuatouenabled=false;
+			linggongenabled=false;
+			anqi_mangongenabled=false;
+			mangong_sandouenabled=false;
+			mangongenabled=false;
+
+			jiaohudouenabled=false;
+			qiangdouenabled=false;
+			nidaogong_sandouenabled=false;
+			anqi_nidaogongenabled=false;
+			huagong_huatouzi_l62enabled=false;
+			nidaogongenabled=false;
+			ang_4puzuoenabled=false;
+
+			ludouenabled=false;
+		}
+	}
+
+	function allenabled(allenabled){
+		if (allenabled==true)
+		{
+			setangshuan();
+
+			setniujifang();
+			setfang();
+			setzhechuanban();
+
+			setpingqifang();
+			setzhutoufang();
+			setliaoyanfang();
+			setchenfangtou();
+
+			setlinggong_sandou();
+			setqixindou_3();
+			setshuatou();
+			setlinggong();
+			setanqi_mangong();
+			setmangong();
+
+			setjiaohudou();
+			setqiangdou();
+			setnidaogong_sandou();
+			setanqi_nidaogong();
+			sethuagong_huatouzi_l62();
+			setnidaogong();
+			setang_4puzuo();
+
+			setludou();
+			ludouenabled=true;
+		}
+	}
+
+	////////////////////////////////////////
+	function niujifang(niujifang){
+		vniujifang=niujifang;
+		setfang();
+	}
+
+	function fang(fang){
+		vfang=fang;
+		setzhechuanban('min');
+		setniujifang();
+		setchenfangtou();
+	}
+
+
+	function zhechuanban(zhechuanban){
+		//print('zhechuanban:',zhechuanban);
+		vzhechuanban[0]=zhechuanban[0];
+
+		ozhechuanban=vzhechuanban;
+		setliaoyanfang();
+		setpingqifang();
+
+		setchenfangtou();
+	}
+
+	function liaoyanfang(liaoyanfang){
+		vliaoyanfang=liaoyanfang;
+		vzhechuanban[1]=vliaoyanfang[1];
+		ozhechuanban[1]=vzhechuanban[1];
+		//print('ozhechuanban:',ozhechuanban);
+		setchenfangtou();
+		setlinggong_sandou('max');
+	}
+
+	function chenfangtou(chenfangtou){
+		vchenfangtou=chenfangtou;
+		setzhutoufang('max');
+		setfang();
+		setliaoyanfang();
+		setqixindou_3();
+	}
+
+	function zhutoufang(zhutoufang){
+		vzhutoufang=zhutoufang;
+		setchenfangtou();
+		setqixindou_3('max');
+		setshuatou('max');
+		setanqi_mangong('max');
+		setmangong_sandou('max');
+	}
+
+	function pingqifang(pingqifang){
+		vpingqifang=pingqifang;
+		setqixindou_3('max');
+		setlinggong_sandou('max');
+	}
+
+	function qixindou_3(qixindou_3){
+		vqixindou_3=qixindou_3;
+		setchenfangtou();
+		setpingqifang('min');
+		setshuatou('max');
+	}
+
+	function shuatou(shuatou){
+		vshuatou=shuatou;
+		setqixindou_3('min');
+		setzhutoufang('min');
+		setlinggong('max');
+		setmangong('max');
+	}
+
+	function linggong_sandou(linggong_sandou){
+		vlinggong_sandou=linggong_sandou;
+		setlinggong('max');
+		setpingqifang('min');
+		setliaoyanfang('min');
+	}
+
+	function linggong(linggong){
+		vlinggong=linggong;
+		setlinggong_sandou('min');
+		setshuatou('min');
+		setjiaohudou('max');
+		setqiangdou('max');
+	}
+
+	function mangong_sandou(mangong_sandou){
+		vmangong_sandou=mangong_sandou;
+		setmangong('max');
+	}
+
+	function mangong(mangong){
+		vmangong=mangong;
+		setmangong_sandou('min');
+		setmangong('min');
+		setanqi_mangong('min');
+		setshuatou('min');
+		setnidaogong_sandou('max');
+		setanqi_nidaogong('max');
+	}
+
+	function anqi_mangong(anqi_mangong){
+		vanqi_mangong=anqi_mangong;
+		setzhutoufang('min');
+		setmangong('max');
+	}
+
+	function anqi_nidaogong(anqi_nidaogong){
+		vanqi_nidaogong=anqi_nidaogong;
+		setmangong('min');
+		setnidaogong('max');
+	}
+
+	function nidaogong(nidaogong){
+		vnidaogong=nidaogong;
+		setanqi_nidaogong('min');
+		setnidaogong_sandou('min');
+		sethuagong_huatouzi_l62('min');
+		setludou('max');
+	}
+
+	function nidaogong_sandou(nidaogong_sandou){
+		vnidaogong_sandou=nidaogong_sandou;
+		setmangong('min');
+		setnidaogong('max');
+	}
+
+	function ang_4puzuo(ang_4puzuo){
+		vang_4puzuo=ang_4puzuo;
+		setqiangdou('min');
+		sethuagong_huatouzi_l62('max');
+	}
+
+	function jiaohudou(jiaohudou){
+		vjiaohudou=jiaohudou;
+		setlinggong('min');
+		sethuagong_huatouzi_l62('max');
+	}
+
+	function qiangdou(qiangdou){
+		vqiangdou=qiangdou;
+		setlinggong('min');
+		setang_4puzuo('max');
+	}
+
+	function huagong_huatouzi_l62(huagong_huatouzi_l62){
+		vhuagong_huatouzi_l62=huagong_huatouzi_l62;
+		setjiaohudou('min');
+		setang_4puzuo('min');
+		setnidaogong('max');
+		setludou('max');
+		setangshuan('min');
+	}
+
+	function ludou(ludou){
+		vludou=ludou;
+		setnidaogong('min');
+		sethuagong_huatouzi_l62('min');
+	}
+
+	function angshuan(angshuan){
+		vangshuan=angshuan;
+		sethuagong_huatouzi_l62('max');
+	}
+
+
+	"
+}
+
+DEF	all Transform {
+	children [
+		DEF ludou Transform {
+			children [
+				Inline {
+					url	["dou\ludou_prt.wrl"]
+				}
+				DEF ludou_PlaneSensor PlaneSensor	{
+					enabled	FALSE
+					maxPosition	0 0#0 10
+					minPosition	0 0
+					ROUTE ludou_PlaneSensor.translation_changed TO ludou.translation
+					ROUTE ludou_PlaneSensor.translation_changed TO	queue_script.ludou
+					ROUTE queue_script.ludouenabled TO ludou_PlaneSensor.enabled
+					ROUTE queue_script.ludoumax TO ludou_PlaneSensor.maxPosition
+					ROUTE queue_script.ludoumin TO ludou_PlaneSensor.minPosition
+				}
+			]
+		}
+
+
+		DEF layer2_nidaogong Transform {
+			rotation 0 1 0 1.57
+			translation	0 0.12 0
+			children [
+
+				DEF nidaogong Transform {
+					children [
+						Inline {
+							url	["gong\nidaogong_prt.wrl"]
+						}
+						DEF nidaogong_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE nidaogong_PlaneSensor.translation_changed TO nidaogong.translation
+							ROUTE nidaogong_PlaneSensor.translation_changed TO	queue_script.nidaogong
+							ROUTE queue_script.nidaogongenabled TO nidaogong_PlaneSensor.enabled
+							ROUTE queue_script.nidaogongmax TO nidaogong_PlaneSensor.maxPosition
+							ROUTE queue_script.nidaogongmin TO nidaogong_PlaneSensor.minPosition
+						}
+					]
+				}
+
+				Transform {
+					translation	0.26 0.15 0
+					children [
+						DEF nidaogong_sandou Transform {
+							children [
+								DEF sandouInline Inline {
+									url	["dou\sandou_prt.wrl"]
+								}
+							]
+						}
+						DEF nidaogong_sandou_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE nidaogong_sandou_PlaneSensor.translation_changed TO nidaogong_sandou.translation
+							ROUTE nidaogong_sandou_PlaneSensor.translation_changed TO	queue_script.nidaogong_sandou
+							ROUTE queue_script.nidaogong_sandouenabled TO nidaogong_sandou_PlaneSensor.enabled
+							ROUTE queue_script.nidaogong_sandoumax TO nidaogong_sandou_PlaneSensor.maxPosition
+							ROUTE queue_script.nidaogong_sandoumin TO nidaogong_sandou_PlaneSensor.minPosition
+						}
+					]
+				}
+				Transform {
+					translation	-0.26 0.15 0
+					children [
+						USE nidaogong_sandou
+						USE	nidaogong_sandou_PlaneSensor
+					]
+				}
+
+				DEF anqi_nidaogong Transform {
+					children [
+						Inline {
+							url	["anqi\anqi_nidaogong_prt.wrl"]
+						}]}
+				DEF anqi_nidaogong_PlaneSensor PlaneSensor	{
+					enabled	FALSE
+					maxPosition	0 0#0 10
+					minPosition	0 0
+					ROUTE anqi_nidaogong_PlaneSensor.translation_changed TO anqi_nidaogong.translation
+					ROUTE anqi_nidaogong_PlaneSensor.translation_changed TO	queue_script.anqi_nidaogong
+					ROUTE queue_script.anqi_nidaogongenabled TO anqi_nidaogong_PlaneSensor.enabled
+					ROUTE queue_script.anqi_nidaogongmax TO anqi_nidaogong_PlaneSensor.maxPosition
+					ROUTE queue_script.anqi_nidaogongmin TO anqi_nidaogong_PlaneSensor.minPosition
+				}
+
+				Transform {
+					rotation 0 1 0 3.14
+					children [
+						USE	anqi_nidaogong
+						USE	anqi_nidaogong_PlaneSensor
+					]
+				}
+
+				Transform {
+					# 0.10 = half of the distance of anqi's hole
+					# 0.11 = 0.15-0.04(hole deepth)
+					translation	-0.1 0.11 0
+					children [
+						DEF nidaogong_anqi_chaxiao Transform {
+							children [
+								DEF anqi_chaxiaoInline Inline	{
+									url	["anqi\anqi_chaxiao_prt.wrl"]
+								}
+							]
+						}
+					]
+				}
+
+				Transform {
+					translation	0.1 0.11 0
+					children [
+						USE nidaogong_anqi_chaxiao
+					]
+				}
+
+			]
+		}
+
+		DEF layer3_huagong Transform {
+			translation	0 0.12 0
+			children [
+				DEF huagong_huatouzi_l62 Transform {
+					children [
+						Inline {
+							url	["gong\huagong_huatouzi_l62_prt.wrl"]
+						}
+					]
+				}
+				DEF huagong_huatouzi_l62_PlaneSensor PlaneSensor	{
+					enabled	FALSE
+					maxPosition	0 0#0 10
+					minPosition	0 0
+					ROUTE huagong_huatouzi_l62_PlaneSensor.translation_changed TO huagong_huatouzi_l62.translation
+					ROUTE huagong_huatouzi_l62_PlaneSensor.translation_changed TO	queue_script.huagong_huatouzi_l62
+					ROUTE queue_script.huagong_huatouzi_l62enabled TO huagong_huatouzi_l62_PlaneSensor.enabled
+					ROUTE queue_script.huagong_huatouzi_l62max TO huagong_huatouzi_l62_PlaneSensor.maxPosition
+					ROUTE queue_script.huagong_huatouzi_l62min TO huagong_huatouzi_l62_PlaneSensor.minPosition
+				}
+
+
+				Transform {
+					translation	-0.3 0.15 0 
+					#0.3 is the 1/2 long of huagong
+					#0.15 is a Cai equaling 15 fen
+					children [
+						DEF jiaohudou Transform {
+							children [
+								Inline {
+									url	["dou\jiaohudou_prt.wrl"]
+								}
+							]
+						}
+						DEF jiaohudou_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE jiaohudou_PlaneSensor.translation_changed TO jiaohudou.translation
+							ROUTE jiaohudou_PlaneSensor.translation_changed TO	queue_script.jiaohudou
+							ROUTE queue_script.jiaohudouenabled TO jiaohudou_PlaneSensor.enabled
+							ROUTE queue_script.jiaohudoumax TO jiaohudou_PlaneSensor.maxPosition
+							ROUTE queue_script.jiaohudoumin TO jiaohudou_PlaneSensor.minPosition
+						}
+					]
+				}
+			]
+		}
+
+		DEF layer3_ang Transform {
+			translation	0 0.12 0
+			#0.12 is the height of ludou
+			children [
+				DEF ang_4puzuo Transform {
+					children [
+						Inline {
+							url	["ang\ang_4puzuo_prt.wrl"]
+						}
+					]
+				}
+				DEF ang_4puzuo_PlaneSensor PlaneSensor	{
+					enabled	FALSE
+					maxPosition	0 0#0 10
+					minPosition	0 0
+					ROUTE ang_4puzuo_PlaneSensor.translation_changed TO ang_4puzuo.translation
+					ROUTE ang_4puzuo_PlaneSensor.translation_changed TO	queue_script.ang_4puzuo
+					ROUTE queue_script.ang_4puzuoenabled TO ang_4puzuo_PlaneSensor.enabled
+					ROUTE queue_script.ang_4puzuomax TO ang_4puzuo_PlaneSensor.maxPosition
+					ROUTE queue_script.ang_4puzuomin TO ang_4puzuo_PlaneSensor.minPosition
+				}
+
+
+				Transform {
+					translation	0.3 0.15 0
+					children [
+						DEF qiangdou Transform {
+							children [
+								Inline {
+									url	["dou\qiangdou_prt.wrl"]
+								}
+							]
+						}
+						DEF qiangdou_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE qiangdou_PlaneSensor.translation_changed TO qiangdou.translation
+							ROUTE qiangdou_PlaneSensor.translation_changed TO	queue_script.qiangdou
+							ROUTE queue_script.qiangdouenabled TO qiangdou_PlaneSensor.enabled
+							ROUTE queue_script.qiangdoumax TO qiangdou_PlaneSensor.maxPosition
+							ROUTE queue_script.qiangdoumin TO qiangdou_PlaneSensor.minPosition
+						}
+					]
+				}
+			]
+		}
+
+		DEF layer3_linggong Transform {
+			translation -0.30 0.33 0
+			# 0.12+0.15+0.6=0.33
+			rotation 0 1 0 1.57
+			children [
+				DEF linggong Transform {
+					children [
+						Inline {
+							url	["gong\linggong_prt.wrl"]
+						}
+						DEF linggong_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE linggong_PlaneSensor.translation_changed TO linggong.translation
+							ROUTE linggong_PlaneSensor.translation_changed TO	queue_script.linggong
+							ROUTE queue_script.linggongenabled TO linggong_PlaneSensor.enabled
+							ROUTE queue_script.linggongmax TO linggong_PlaneSensor.maxPosition
+							ROUTE queue_script.linggongmin TO linggong_PlaneSensor.minPosition
+						}
+					]
+				}
+				Transform {
+					translation	0.31 0.15 0
+					# half_linggong 0.36-0.5=0.31
+					children [
+						DEF linggong_sandou Transform {
+							children [
+								USE sandouInline
+							]
+						}
+						DEF linggong_sandou_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE linggong_sandou_PlaneSensor.translation_changed TO linggong_sandou.translation
+							ROUTE linggong_sandou_PlaneSensor.translation_changed TO	queue_script.linggong_sandou
+							ROUTE queue_script.linggong_sandouenabled TO linggong_sandou_PlaneSensor.enabled
+							ROUTE queue_script.linggong_sandoumax TO linggong_sandou_PlaneSensor.maxPosition
+							ROUTE queue_script.linggong_sandoumin TO linggong_sandou_PlaneSensor.minPosition
+						}
+					]
+				}
+				Transform {
+					translation	-0.31 0.15 0
+					children [
+						USE linggong_sandou
+						USE	linggong_sandou_PlaneSensor
+					]
+				}
+			]
+		}
+
+		Transform {
+			translation	0.6 0 0
+			children [
+				USE layer3_linggong
+			]
+		}
+
+		DEF layer3_manggong Transform {
+			# 0.12+0.15+0.6
+			translation	0 0.33 0
+			rotation 0 1 0 1.57
+			children [
+				DEF mangong Transform {
+					children [
+						Inline {
+							url	["gong\binei_mangong_prt.wrl"]
+						}
+						DEF mangong_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE mangong_PlaneSensor.translation_changed TO mangong.translation
+							ROUTE mangong_PlaneSensor.translation_changed TO	queue_script.mangong
+							ROUTE queue_script.mangongenabled TO mangong_PlaneSensor.enabled
+							ROUTE queue_script.mangongmax TO mangong_PlaneSensor.maxPosition
+							ROUTE queue_script.mangongmin TO mangong_PlaneSensor.minPosition
+						}
+					]
+				}
+				Transform {
+					# 0.46-0.5
+					translation 0.41 0.15 0
+					children [
+						DEF mangong_sandou Transform {
+							children [
+								USE sandouInline
+							]
+						}
+						DEF mangong_sandou_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE mangong_sandou_PlaneSensor.translation_changed TO mangong_sandou.translation
+							ROUTE mangong_sandou_PlaneSensor.translation_changed TO	queue_script.mangong_sandou
+							ROUTE queue_script.mangong_sandouenabled TO mangong_sandou_PlaneSensor.enabled
+							ROUTE queue_script.mangong_sandoumax TO mangong_sandou_PlaneSensor.maxPosition
+							ROUTE queue_script.mangong_sandoumin TO mangong_sandou_PlaneSensor.minPosition
+						}
+					]
+				}
+				Transform {
+					# 0.46-0.5
+					translation -0.41 0.15 0
+					children [
+						USE mangong_sandou
+						USE	mangong_sandou_PlaneSensor
+					]
+				}
+
+				DEF anqi_mangong Transform {
+					children [
+						Inline {url	["anqi\anqi_mangong_prt.wrl"]}
+					]
+				}
+				
+				DEF anqi_mangong_PlaneSensor PlaneSensor	{
+					enabled	FALSE
+					maxPosition	0 0#0 10
+					minPosition	0 0
+					ROUTE anqi_mangong_PlaneSensor.translation_changed TO anqi_mangong.translation
+					ROUTE anqi_mangong_PlaneSensor.translation_changed TO	queue_script.anqi_mangong
+					ROUTE queue_script.anqi_mangongenabled TO anqi_mangong_PlaneSensor.enabled
+					ROUTE queue_script.anqi_mangongmax TO anqi_mangong_PlaneSensor.maxPosition
+					ROUTE queue_script.anqi_mangongmin TO anqi_mangong_PlaneSensor.minPosition
+				}
+
+				Transform {
+					rotation 0 1 0 3.14
+					children [
+						USE anqi_mangong
+						USE	anqi_mangong_PlaneSensor
+					]
+				}
+
+				Transform {
+					# 0.10 = half of the distance of anqi's hole
+					# 0.11 = 0.15-0.04(hole deepth)
+					translation	-0.2 0.11 0
+					children [
+						DEF mangong_anqi_chaxiao Transform {
+							children [
+								USE anqi_chaxiaoInline
+							]
+						}
+					]
+				}
+
+				Transform {
+					translation	0.2 0.11 0
+					children [
+						USE mangong_anqi_chaxiao
+					]
+				}
+			]
+		}
+
+		DEF layer3_shuatou Transform {
+			# 0.12+0.15+0.6
+			translation	0 0.33 0
+			children [
+			    DEF	shuatou Transform {
+					children [
+						Inline {
+							url	["shuatou\shuatou_shuangtou_asm.wrl"]
+						}
+						DEF shuatou_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE shuatou_PlaneSensor.translation_changed TO shuatou.translation
+							ROUTE shuatou_PlaneSensor.translation_changed TO	queue_script.shuatou
+							ROUTE queue_script.shuatouenabled TO shuatou_PlaneSensor.enabled
+							ROUTE queue_script.shuatoumax TO shuatou_PlaneSensor.maxPosition
+							ROUTE queue_script.shuatoumin TO shuatou_PlaneSensor.minPosition
+						}
+					]
+				}
+
+				Transform {
+					translation	-0.3 0.15 0
+					rotation 0 1 0 1.57
+					children [
+						DEF qixindou_3 Transform {
+							children [
+								Inline {
+									url	["dou\qixindou_3_prt.wrl"]
+								}
+							]
+						}
+						DEF qixindou_3_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE qixindou_3_PlaneSensor.translation_changed TO qixindou_3.translation
+							ROUTE qixindou_3_PlaneSensor.translation_changed TO	queue_script.qixindou_3
+							ROUTE queue_script.qixindou_3enabled TO qixindou_3_PlaneSensor.enabled
+							ROUTE queue_script.qixindou_3max TO qixindou_3_PlaneSensor.maxPosition
+							ROUTE queue_script.qixindou_3min TO qixindou_3_PlaneSensor.minPosition
+						}
+					]
+				}
+
+				Transform {
+					translation	0.3 0.15 0
+					rotation 0 1 0 -1.57
+					children [
+						USE qixindou_3
+						USE	qixindou_3_PlaneSensor
+					]
+				}
+			]
+		}
+
+		# 4th puzuo
+		DEF layer4 Transform {
+			# 0.12+0.15+0.6+0.15+0.6
+			translation 0 0.54 0
+			children [
+				DEF zhutoufang Transform {
+					children[
+						Inline {
+							url	["fang\zhutoufang_prt.wrl"]
+						}
+						DEF zhutoufang_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE zhutoufang_PlaneSensor.translation_changed TO zhutoufang.translation
+							ROUTE zhutoufang_PlaneSensor.translation_changed TO	queue_script.zhutoufang
+							ROUTE queue_script.zhutoufangenabled TO zhutoufang_PlaneSensor.enabled
+							ROUTE queue_script.zhutoufangmax TO	zhutoufang_PlaneSensor.maxPosition
+							ROUTE queue_script.zhutoufangmin TO	zhutoufang_PlaneSensor.minPosition
+						}
+					]
+				}
+
+				DEF chenfangtou Transform {
+					children [
+						Inline {
+							url	["fang\chenfangtou_prt.wrl"]
+						}
+						DEF chenfangtou_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE chenfangtou_PlaneSensor.translation_changed TO chenfangtou.translation
+							ROUTE chenfangtou_PlaneSensor.translation_changed TO queue_script.chenfangtou
+							ROUTE queue_script.chenfangtouenabled TO chenfangtou_PlaneSensor.enabled
+							ROUTE queue_script.chenfangtoumin TO chenfangtou_PlaneSensor.minPosition
+							ROUTE queue_script.chenfangtoumax TO chenfangtou_PlaneSensor.maxPosition
+						}
+					]
+				}
+
+				Transform {
+					translation	-0.3 0 0
+					children [
+						DEF pingqifang Transform {
+							children [
+								Inline {
+									url	["fang\pingqifang_prt.wrl"]
+								}
+							]
+						}
+						DEF pingqifang_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE pingqifang_PlaneSensor.translation_changed TO pingqifang.translation
+							ROUTE pingqifang_PlaneSensor.translation_changed TO	queue_script.pingqifang
+							ROUTE queue_script.pingqifangenabled TO pingqifang_PlaneSensor.enabled
+							ROUTE queue_script.pingqifangmax TO pingqifang_PlaneSensor.maxPosition
+							ROUTE queue_script.pingqifangmin TO	pingqifang_PlaneSensor.minPosition
+						}
+					]
+				}
+
+
+				Transform {
+					translation	0.15 0.15 0
+					children[
+						DEF angshuan Transform {
+							children [
+								Inline	{
+									url	["anqi\angshuan_l52_prt.wrl"]}
+							]
+						}
+						DEF angshuan_PlaneSensor PlaneSensor	{
+							maxPosition	0 10#0 10
+							minPosition	0 0
+							ROUTE angshuan_PlaneSensor.translation_changed TO angshuan.translation
+							ROUTE angshuan_PlaneSensor.translation_changed TO	queue_script.angshuan
+							#ROUTE queue_script.angshuanmax TO angshuan_PlaneSensor.maxPosition
+							ROUTE queue_script.angshuanmin TO	angshuan_PlaneSensor.minPosition
+						}
+					]
+				}
+
+				Transform {
+					translation	0.3 0 0
+					children [
+						DEF liaoyanfang Transform {children Inline {
+								url	["fang\liaoyanfang_prt.wrl"]
+							}}
+						DEF liaoyanfang_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0#0 10
+							minPosition	0 0
+							ROUTE liaoyanfang_PlaneSensor.translation_changed TO liaoyanfang.translation
+							ROUTE liaoyanfang_PlaneSensor.translation_changed TO queue_script.liaoyanfang
+							ROUTE queue_script.liaoyanfangenabled TO liaoyanfang_PlaneSensor.enabled
+							ROUTE queue_script.liaoyanfangmax TO liaoyanfang_PlaneSensor.maxPosition
+							ROUTE queue_script.liaoyanfangmin TO liaoyanfang_PlaneSensor.minPosition
+						}
+					]
+				}
+
+				Transform {
+					translation	0.15 0.15 0
+					children [
+						DEF zhechuanban Transform {
+							children[
+								Inline {
+									url	["ban\zhechuanban_prt.wrl"]
+								}
+								DEF zhechuanban_PlaneSensor PlaneSensor	{
+									enabled	FALSE
+									maxPosition	0 0
+									minPosition	0 0#-10 0
+									ROUTE zhechuanban_PlaneSensor.translation_changed TO queue_script.zhechuanban
+									ROUTE queue_script.ozhechuanban	TO zhechuanban.translation
+									ROUTE queue_script.zhechuanbanenabled TO zhechuanban_PlaneSensor.enabled
+									ROUTE queue_script.zhechuanbanenabled TO zhechuanban_PlaneSensor.enabled
+									ROUTE queue_script.zhechuanbanmin TO zhechuanban_PlaneSensor.minPosition
+								}
+							]
+						}
+					]
+				}
+
+				Transform {
+					translation	-0.15 0.15 0
+					children [
+						USE	zhechuanban
+						USE	zhechuanban_PlaneSensor
+					]
+				}
+
+				Transform {
+					translation	0 0.15 0
+					children[
+						DEF fang Transform {children Inline	{
+								url	["fang\fang_prt.wrl"]
+							}}
+
+						DEF fang_PlaneSensor PlaneSensor	{
+							enabled	FALSE
+							maxPosition	0 0
+							minPosition	0 0
+							ROUTE fang_PlaneSensor.translation_changed TO fang.translation
+							ROUTE fang_PlaneSensor.translation_changed TO queue_script.fang
+							ROUTE queue_script.fangenabled TO fang_PlaneSensor.enabled
+							ROUTE queue_script.fangmin TO fang_PlaneSensor.minPosition
+							ROUTE queue_script.fangmax TO fang_PlaneSensor.maxPosition
+						}
+					]
+				}
+
+				Transform {
+					# 0.15+0.06
+					translation	0 0.21 0
+					children [
+						DEF niujifang Transform {children Inline {
+								url	["fang\niujifang_prt.wrl"]
+							}}
+
+						DEF niujifang_PlaneSensor PlaneSensor	{
+							enabled FALSE #open in webpage
+							maxPosition	0 10
+							minPosition	0 0
+							ROUTE niujifang_PlaneSensor.translation_changed TO	niujifang.translation
+							ROUTE niujifang_PlaneSensor.translation_changed	TO queue_script.niujifang
+							#ROUTE niujifang_PlaneSensor.isActive TO	drag_audio.loop
+							ROUTE queue_script.niujifangenabled	TO niujifang_PlaneSensor.enabled
+							ROUTE queue_script.niujifangmin	TO niujifang_PlaneSensor.minPosition
+						}
+					]
+				}
+
+			]
+		}
+	]
+}
+
+
+
+
+DEF	TimeSensor_Rotate TimeSensor {
+	enabled	FALSE
+	loop TRUE
+	cycleInterval 10
+}
+
+DEF Rotate360 OrientationInterpolator	{
+	key	[0 0.5 1]
+	keyValue [0 1 0 0,0 1 0 3.14,0 1 0 6.28]
+}
+
+#ROUTE test.isActive	TO TimeSensor_Rotate.enabled
+
+ROUTE TimeSensor_Rotate.fraction_changed TO Rotate360.set_fraction
+ROUTE Rotate360.value_changed TO all.rotation
+
+
+ROUTE anqi_mangong.translation TO mangong_anqi_chaxiao.translation
+ROUTE anqi_nidaogong.translation TO	nidaogong_anqi_chaxiao.translation
+
+
+Transform {
+	translation	1 0.5 0
+	children
+	[ Shape {
+			geometry Box {size 0 0 0}
+			appearance Appearance {
+				material Material {
+					diffuseColor .14 0 .06
+					specularColor .86 .33 .23
+					emissiveColor .43 0 .19
+					ambientIntensity .0533
+					shininess .24
+					transparency 0
+				}
+			}
+
+		}
+		DEF	trigger TouchSensor {}
+	]
+}
+
+DEF DisAsmObject Group {	  # 定义了一个节点结构，由脚本加入造型
+	children [	
+		DEF	disasmtimer Group	{
+			children []
+		}
+
+		DEF	disasm Group {
+			children []
+		}
+	] 
+}
+
+DEF AsmObject Group {	  # 定义了一个节点结构，由脚本加入造型
+	children [	
+		DEF	asmtimer Group	{
+			children []
+		}
+
+		DEF	asm Group {
+			children []
+		}
+	] 
+}
+
+DEF	script_allasm Script {
+	eventIn	SFTime resetdisasm
+	eventIn	SFTime resetasm
+	eventIn	SFTime startasmTime
+	eventIn	SFTime startdisasmTime
+	field SFFloat cycletime 2
+	field MFVec3f position 0 0 0
+	field SFVec3f o 0 0 0
+	field MFNode temp []#not used
+	field MFNode asmtimer_temp []
+	field MFNode disasmtimer_temp []
+	field MFNode asm_temp []
+	field MFNode disasm_temp []
+	field MFNode script []
+	field SFString timerstr ""
+	field SFString asmstr ""
+	field SFString scriptstr ""
+	field SFNode asmtimer USE asmtimer
+	field SFNode disasmtimer USE disasmtimer
+	field SFNode asm USE asm
+	field SFNode disasm USE disasm
+	field SFNode AsmObject USE AsmObject
+	field SFNode DisAsmObject USE DisAsmObject
+	field SFNode trigger USE trigger
+	field SFNode niujifang USE niujifang
+	field SFNode fang USE fang
+	field SFNode zhechuanban USE zhechuanban
+	field SFNode liaoyanfang USE liaoyanfang
+	field SFNode pingqifang USE pingqifang
+	field SFNode angshuan USE angshuan
+	field SFNode chenfangtou USE chenfangtou
+	field SFNode zhutoufang USE zhutoufang
+
+	field SFNode qixindou_3 USE qixindou_3
+	field SFNode anqi_mangong USE anqi_mangong
+	field SFNode shuatou USE shuatou
+	field SFNode linggong_sandou USE linggong_sandou
+	field SFNode linggong USE linggong
+	field SFNode mangong_sandou USE mangong_sandou
+	field SFNode mangong USE mangong
+
+	field SFNode anqi_nidaogong USE anqi_nidaogong
+	field SFNode qiangdou USE qiangdou
+	field SFNode jiaohudou USE jiaohudou
+	field SFNode nidaogong_sandou USE nidaogong_sandou
+	field SFNode ang_4puzuo USE ang_4puzuo
+	field SFNode huagong_huatouzi_l62 USE huagong_huatouzi_l62
+	field SFNode nidaogong USE nidaogong
+	field SFNode nidaogong_PlaneSensor USE nidaogong_PlaneSensor
+	field SFNode ludou USE ludou
+
+	field SFNode queue_script USE queue_script
+
+	url	"javascript:
+	function resetall(resetall){
+		i=0;
+		while (asmtimer.children[i]!=undefined)
+		{
+			//print(disasmtimer.children[i]);
+			//disasmtimer.children[i]=temp;
+			//print(disasmtimer.removeChildren[i]);
+			asmtimer.children[i].enabled=false;
+			i++;
+		}
+		i=0;
+		while (asm.children[i]!=undefined)
+		{
+			asm.children[i].enabled=false;
+			i++;
+		}
+		i=0;
+		while (disasmtimer.children[i]!=undefined)
+		{
+			//print(disasmtimer.children[i]);
+			//disasmtimer.children[i]=temp;
+			//print(disasmtimer.removeChildren[i]);
+			disasmtimer.children[i].enabled=false;
+			i++;
+		}
+		i=0;
+		while (disasm.children[i]!=undefined)
+		{
+			disasm.children[i].enabled=false;
+			i++;
+		}
+	}
+	function resetasm(resetasm){
+		resetall();
+		angshuan.translation=o;
+
+		niujifang.translation=o;
+		fang.translation=o;
+		zhechuanban.translation=o;
+
+		pingqifang.translation=o;
+		zhutoufang.translation=o;
+		liaoyanfang.translation=o;
+		chenfangtou.translation=o;
+
+		linggong_sandou.translation=o;
+		qixindou_3.translation=o;
+		shuatou.translation=o;
+		linggong.translation=o;
+		anqi_mangong.translation=o;
+		mangong_sandou.translation=o;
+		mangong.translation=o;
+
+		jiaohudou.translation=o;
+		qiangdou.translation=o;
+		nidaogong_sandou.translation=o;
+		anqi_nidaogong.translation=o;
+		huagong_huatouzi_l62.translation=o;
+		nidaogong.translation=o;
+		ang_4puzuo.translation=o;
+		ludou.translation=o;
+	}
+	
+	function resetdisasm(resetdisasm){
+		resetall();
+
+		count=21+1;
+		dist=2;
+		step=dist/count;
+		//print('aaa');
+		for (i=0;i<=21;i++)
+		{
+			position[i][1]=(dist-step*i);
+			//print(position);
+			//position[i]='0 '+(dist-step*i)+' 0';
+		}
+		//set default disassemble positon
+		ludou.translation=o;
+		niujifang.translation=position[0];
+		fang.translation=position[1];
+		position[2][0]=-1;
+		position[2][1]=0;
+		zhechuanban.translation=position[2];
+
+		liaoyanfang.translation=position[3];
+		pingqifang.translation=position[4];
+		angshuan.translation=position[5];
+		chenfangtou.translation=position[6];
+		zhutoufang.translation=position[7];
+
+		qixindou_3.translation=position[8];
+		anqi_mangong.translation=position[9];
+		shuatou.translation=position[10];
+		linggong_sandou.translation=position[11];
+		linggong.translation=position[12];
+		mangong_sandou.translation=position[13];
+		mangong.translation=position[14];
+
+		anqi_nidaogong.translation=position[15];
+		qiangdou.translation=position[16];
+		jiaohudou.translation=position[17];
+		nidaogong_sandou.translation=position[18];
+		ang_4puzuo.translation=position[19];
+		huagong_huatouzi_l62.translation=position[20];
+		nidaogong.translation=position[21];
+
+		//nidaogong_PlaneSensor.maxPosition[1]=nidaogong.translation[1];
+		//print(nidaogong_PlaneSensor.maxPosition);
+
+	}
+
+	function startasmTime(startasmTime){
+		resetdisasm();
+		count=21+1;
+		dist=2;
+		step=dist/count;
+		timerstr='';
+		asmstr='';
+		scriptstr='';
+		for (i=0;i<=count;i++){
+			//str+='Transform {translation '+i+' 0 0 children [Shape {geometry Box {size 0.1 0.1 0.1}}]}';
+			//timerstr='';
+			timerstr+='DEF time'+i+' TimeSensor { \n';
+			timerstr+='enabled TRUE \n';
+			timerstr+='loop FALSE \n';
+			timerstr+='cycleInterval '+cycletime+' \n';
+			timerstr+='}\n';
+
+			//asmstr='';
+			asmstr+='DEF disasm'+i+' PositionInterpolator {\n';
+			asmstr+='key	[0 1] \n';
+			if (i!=19)
+				asmstr+='keyValue [0 '+(step*(i+1))+' 0,0 0 0] \n';
+			else
+				asmstr+='keyValue [-1 0 0,0 0 0] \n';
+			asmstr+='}\n';
+
+		}
+		disasmtimer_temp=Browser.createVrmlFromString(timerstr);
+		disasmtimer.addChildren=disasmtimer_temp;
+		//print(disasmtimer);
+		disasm_temp=Browser.createVrmlFromString(asmstr);
+		disasm.addChildren=disasm_temp;
+		//print(disasm_temp);
+		scriptstr+='DEF script_disasm Script {\n';
+		for (i=0;i<=count;i++){
+			scriptstr+='eventIn SFTime itime'+i+'\n';
+			scriptstr+='eventOut SFTime otime'+i+'\n';
+		}
+		scriptstr+='url \"javascript:\n';
+		for (i=0;i<=count;i++){
+			scriptstr+='function itime'+i+'(itime'+i+'){\n';
+			scriptstr+='otime'+i+'=itime'+i+'+'+cycletime+';\n';
+			scriptstr+='}\n';
+		}
+		scriptstr+='\"}';
+		script=Browser.createVrmlFromString(scriptstr);
+		DisAsmObject.addChildren=script;
+
+		//print(disasmtimer_temp[0]);
+		Browser.addRoute(trigger,'touchTime',disasmtimer_temp[0],'startTime');
+		//Browser.addRoute(temp,'touchTime',disasmtimer_temp[0],'startTime');
+		for (i=0;i<=count;i++){
+			Browser.addRoute(disasmtimer_temp[i],'cycleTime',script[0],'itime'+i);
+			Browser.addRoute(script[0],'otime'+i,disasmtimer_temp[i+1],'startTime');
+			Browser.addRoute(disasmtimer_temp[i],'fraction_changed',disasm_temp[i],'set_fraction');
+		}
+		Browser.addRoute(disasm_temp[21],'value_changed',niujifang,'translation');
+		Browser.addRoute(disasm_temp[20],'value_changed',fang,'translation');
+		Browser.addRoute(disasm_temp[19],'value_changed',zhechuanban,'translation');
+		Browser.addRoute(disasm_temp[18],'value_changed',liaoyanfang,'translation');
+		Browser.addRoute(disasm_temp[17],'value_changed',pingqifang,'translation');
+		Browser.addRoute(disasm_temp[16],'value_changed',angshuan,'translation');
+		Browser.addRoute(disasm_temp[15],'value_changed',chenfangtou,'translation');
+		Browser.addRoute(disasm_temp[14],'value_changed',zhutoufang,'translation');
+		Browser.addRoute(disasm_temp[13],'value_changed',qixindou_3,'translation');
+		Browser.addRoute(disasm_temp[12],'value_changed',anqi_mangong,'translation');
+		Browser.addRoute(disasm_temp[11],'value_changed',shuatou,'translation');
+		Browser.addRoute(disasm_temp[10],'value_changed',linggong_sandou,'translation');
+		Browser.addRoute(disasm_temp[9],'value_changed',linggong,'translation');
+		Browser.addRoute(disasm_temp[8],'value_changed',mangong_sandou,'translation');
+		Browser.addRoute(disasm_temp[7],'value_changed',mangong,'translation');
+		Browser.addRoute(disasm_temp[6],'value_changed',anqi_nidaogong,'translation');
+		Browser.addRoute(disasm_temp[5],'value_changed',qiangdou,'translation');
+		Browser.addRoute(disasm_temp[4],'value_changed',jiaohudou,'translation');
+		Browser.addRoute(disasm_temp[3],'value_changed',nidaogong_sandou,'translation');
+		Browser.addRoute(disasm_temp[2],'value_changed',ang_4puzuo,'translation');
+		Browser.addRoute(disasm_temp[1],'value_changed',huagong_huatouzi_l62,'translation');
+		Browser.addRoute(disasm_temp[0],'value_changed',nidaogong,'translation');
+	}
+
+	function startdisasmTime(startdisasmTime){
+		resetasm();
+		count=21+1;
+		dist=2;
+		step=dist/count;
+		timerstr='';
+		asmstr='';
+		scriptstr='';
+		for (i=0;i<=count;i++){
+			//str+='Transform {translation '+i+' 0 0 children [Shape {geometry Box {size 0.1 0.1 0.1}}]}';
+			//timerstr='';
+			timerstr+='DEF time'+i+' TimeSensor { \n';
+			timerstr+='enabled TRUE \n';
+			timerstr+='loop FALSE \n';
+			timerstr+='cycleInterval '+cycletime+' \n';
+			timerstr+='}\n';
+
+			//asmstr='';
+			asmstr+='DEF disasm'+i+' PositionInterpolator {\n';
+			asmstr+='key	[0 1] \n';
+			if (i!=2)
+				asmstr+='keyValue [0 0 0,0 '+(dist-step*i)+' 0] \n';
+			else
+				asmstr+='keyValue [0 0 0,-1 0 0] \n';
+			asmstr+='}\n';
+
+		}
+		disasmtimer_temp=Browser.createVrmlFromString(timerstr);
+		disasmtimer.addChildren=disasmtimer_temp;
+		//print(disasmtimer);
+		disasm_temp=Browser.createVrmlFromString(asmstr);
+		disasm.addChildren=disasm_temp;
+		//print(disasm_temp);
+		scriptstr+='DEF script_disasm Script {\n';
+		for (i=0;i<=count;i++){
+			scriptstr+='eventIn SFTime itime'+i+'\n';
+			scriptstr+='eventOut SFTime otime'+i+'\n';
+		}
+		scriptstr+='url \"javascript:\n';
+		for (i=0;i<=count;i++){
+			scriptstr+='function itime'+i+'(itime'+i+'){\n';
+			scriptstr+='otime'+i+'=itime'+i+'+'+cycletime+';\n';
+			scriptstr+='}\n';
+		}
+		scriptstr+='\"}';
+		script=Browser.createVrmlFromString(scriptstr);
+		DisAsmObject.addChildren=script;
+
+		//print(disasmtimer_temp[0]);
+		Browser.addRoute(trigger,'touchTime',disasmtimer_temp[0],'startTime');
+		//Browser.addRoute(temp,'touchTime',disasmtimer_temp[0],'startTime');
+		for (i=0;i<=count;i++){
+			Browser.addRoute(disasmtimer_temp[i],'cycleTime',script[0],'itime'+i);
+			Browser.addRoute(script[0],'otime'+i,disasmtimer_temp[i+1],'startTime');
+			Browser.addRoute(disasmtimer_temp[i],'fraction_changed',disasm_temp[i],'set_fraction');
+		}
+		Browser.addRoute(disasm_temp[0],'value_changed',niujifang,'translation');
+		Browser.addRoute(disasm_temp[1],'value_changed',fang,'translation');
+		Browser.addRoute(disasm_temp[2],'value_changed',zhechuanban,'translation');
+		Browser.addRoute(disasm_temp[3],'value_changed',liaoyanfang,'translation');
+		Browser.addRoute(disasm_temp[4],'value_changed',pingqifang,'translation');
+		Browser.addRoute(disasm_temp[5],'value_changed',angshuan,'translation');
+		Browser.addRoute(disasm_temp[6],'value_changed',chenfangtou,'translation');
+		Browser.addRoute(disasm_temp[7],'value_changed',zhutoufang,'translation');
+		Browser.addRoute(disasm_temp[8],'value_changed',qixindou_3,'translation');
+		Browser.addRoute(disasm_temp[9],'value_changed',anqi_mangong,'translation');
+		Browser.addRoute(disasm_temp[10],'value_changed',shuatou,'translation');
+		Browser.addRoute(disasm_temp[11],'value_changed',linggong_sandou,'translation');
+		Browser.addRoute(disasm_temp[12],'value_changed',linggong,'translation');
+		Browser.addRoute(disasm_temp[13],'value_changed',mangong_sandou,'translation');
+		Browser.addRoute(disasm_temp[14],'value_changed',mangong,'translation');
+		Browser.addRoute(disasm_temp[15],'value_changed',anqi_nidaogong,'translation');
+		Browser.addRoute(disasm_temp[16],'value_changed',qiangdou,'translation');
+		Browser.addRoute(disasm_temp[17],'value_changed',jiaohudou,'translation');
+		Browser.addRoute(disasm_temp[18],'value_changed',nidaogong_sandou,'translation');
+		Browser.addRoute(disasm_temp[19],'value_changed',ang_4puzuo,'translation');
+		Browser.addRoute(disasm_temp[20],'value_changed',huagong_huatouzi_l62,'translation');
+		Browser.addRoute(disasm_temp[21],'value_changed',nidaogong,'translation');
+	}
+	"
+}
+
+
+#PROTO HUD [
+#	exposedField SFVec3f	position	0 0 -23
+#	field        MFNode	HudObjects	[]
+#	field        SFVec3f	proximitySize	1000 1000 1000
+#]
+#{
+#	Group {
+#    	children[
+#    		DEF proximity ProximitySensor {
+#	    		center	0 0 0
+#	    		size IS proximitySize
+#    		}
+#    		Collision {
+#				children	DEF HUDshapes Transform {
+#	    			children	Transform {
+#	    				children IS HudObjects
+#	    				translation IS position
+#	    			}
+#					translation	0 0 0
+#					rotation	0 0 1  0
+#				}
+#				collide	FALSE
+#    		}
+#		]
+#	}
+#	ROUTE proximity.position_changed TO proximity.set_center
+#	ROUTE proximity.position_changed TO HUDshapes.set_translation
+#	ROUTE proximity.orientation_changed TO HUDshapes.set_rotation
+#}
+
+#HUD {
+#	HudObjects	Group {
+#    	children[
+#			DEF	pannel Transform {
+#				translation	11 0 0
+#				children [
+#					Shape {
+#						geometry Box {size 6 15 0.1}
+#						appearance Appearance {
+#							material Material {
+#								diffuseColor .61 .61 .61
+#								specularColor .77 .76 .76
+#								ambientIntensity .14
+#								shininess .9
+#							}
+#						}
+#					}
+#					DEF viewpannel Transform {
+#						translation	-0.25 6 1
+#						children [
+#							Shape {
+#								geometry Box {size 4 3 0.1}
+#							}
+#							DEF	top Transform {
+#								children [
+#									Shape {
+#										geometry Box {size 1 1 0.1}
+#										appearance Appearance {
+#											material Material {
+#												diffuseColor .38 .38 .42
+#												specularColor .53 .53 .53
+#												ambientIntensity .0933
+#												shininess .93
+#											}
+#										}
+#									}
+#									Transform {
+#										translation	-0.5 -0.4 0.1
+#										children [
+#											Shape {
+#												geometry Text {
+#													string ["顶"]
+#													fontStyle FontStyle	{
+#														size 1
+#													}
+#												}
+#											}
+#										]
+#									}
+#								]
+#							}
+#						]
+#					}
+#				]
+#			}
+##    		DEF	boxRed Transform {
+##	    		translation 12 7 1
+##	    		children [
+##					Shape {
+##						appearance Appearance {
+##							material Material {diffuseColor 1 0 0}
+##						}
+##						geometry Box {size 2 2 0.1}
+##					}
+##					DEF	t0 TouchSensor {}
+##    			]
+##    		}
+##    		DEF	boxGreen Transform {
+##	    		translation 12 3 1
+##	    		children [
+##					Shape {
+##						appearance Appearance {
+##							material Material {diffuseColor 0 1 0}
+##						}
+##						geometry Box {size 2 2 0.1}
+##					}
+##					DEF	t1 TouchSensor {}
+##	    		]
+##    		}
+##			DEF	boxBlue Transform {
+##	    		translation	12 -1 1
+##	    		children [
+##					Shape {
+##						appearance Appearance {
+##							material Material {diffuseColor 0 0 1}
+##						}
+##						geometry Box {size 2 2 0.1}
+##					}
+##					DEF	t2 TouchSensor {}
+##	    		]
+##    		}
+##			DEF	boxYellow Transform {
+##	    		translation	12 -5 1
+##	    		children [
+##					Shape {
+##						appearance Appearance {
+##							material Material {diffuseColor 1 1 0}
+##						}
+##						geometry Box {size 2 2 0.1}
+##					}
+##					DEF	t3 TouchSensor {}
+##	    		]
+##    		}
+#    	]
+#	}
+#}

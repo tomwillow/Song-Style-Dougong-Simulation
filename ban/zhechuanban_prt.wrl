@@ -1,0 +1,60 @@
+#VRML V2.0 utf8
+
+DEF name Transform {
+	rotation 0 1 0 1.57
+	translation	0 -0.001 -0.3
+	children [
+		Transform {
+			rotation 1 0 0 1.57
+			children [
+				Shape {
+					geometry Text {
+						string ["遮椽板"]
+						fontStyle FontStyle	{
+							size 0.05
+						}
+					}
+				}
+			]
+		}
+	]
+}
+
+Transform {
+	translation	0 0 0.8
+	children [
+		USE	name
+	]
+}
+
+Transform {
+	rotation 1 0 0 3.14
+	translation	0 0.021 0
+	children [
+		USE	name
+	]
+}
+
+Transform {
+	translation	0 0.021 -0.8
+	rotation 1 0 0 3.14
+	children [
+		USE	name
+	]
+}
+Transform {
+	translation	0 0.01 0
+	children [
+		Shape {
+			appearance Appearance {
+				material Material {}
+				texture	ImageTexture {
+					url	["..\texture\wood.jpg"]
+				}
+			}
+			geometry Box {
+				size 0.24 0.02 1.08
+			}
+		}
+	]
+}
