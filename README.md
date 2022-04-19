@@ -1,5 +1,9 @@
 # 宋式斗栱的虚拟装配（四铺作插昂补间铺作）
---Tom Willow
+Author: Tom Willow
+
+## 视频
+
+Bilibili: [宋式斗栱Web模型拆装演示（四铺作插昂补间铺作）](https://www.bilibili.com/video/BV1354y1a7uM/)
 
 ## 预览图
 
